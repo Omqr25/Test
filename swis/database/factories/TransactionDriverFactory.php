@@ -7,7 +7,7 @@ use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TransactionDriver>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\transactionDriver>
  */
 class transactionDriverFactory extends Factory
 {
