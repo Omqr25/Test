@@ -1,6 +1,7 @@
 <?php
 
-namespace DriverTest;
+namespace tests\Feature\DriverTest;
+// namespace DriverTest;
 
 use App\Models\Driver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
