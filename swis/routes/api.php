@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\DonorController;
 use App\Http\Controllers\Api\Admin\DonorItemController;
 use App\Http\Controllers\Api\Admin\DriverController;
 use App\Http\Controllers\Api\Admin\FileController;
@@ -34,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 require_once __DIR__ . '/Api/Auth.php';
 
+
 Route::middleware(['auth:sanctum', 'Localization'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -50,7 +50,6 @@ Route::middleware(['auth:sanctum', 'Localization'])->group(function () {
         Route::get('search/searchbranches', 'searchBranches')->name('branches.search');
         Route::get('search/searchusers', 'searchUsers')->name('users.search');
     });
-
     // Admin Routes
     Route::controller(BranchController::class)->group(function () {
         Route::post('branches/restore', 'restore');
@@ -135,7 +134,7 @@ Route::middleware(['auth:sanctum', 'Localization'])->group(function () {
     Route::get('indexItemForDonor', [DonorItemForDonorController::class, 'index']);
     Route::get('showItemForDonor/{item_id}', [DonorItemForDonorController::class, 'show']);
 
- // API Resource Routes
+    // API Resource Routes
     Route::apiResources([
         'drivers' => DriverController::class,
         'branches' => BranchController::class,

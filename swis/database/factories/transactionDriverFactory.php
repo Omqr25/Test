@@ -7,9 +7,9 @@ use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\transactionDriver>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TransactionDriver>
  */
-class transactionDriverFactory extends Factory
+class TransactionDriverFactory extends Factory
 {
     /**
      * Define the model's default state.

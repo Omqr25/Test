@@ -10,10 +10,12 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Branch;
 use App\Models\Item;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Observers\BranchObserver;
 use App\Observers\ItemObserver;
+use App\Observers\TransactionObserver;
 use App\Observers\UserObserver;
 use App\Observers\WarehouseObserver;
 use Illuminate\Queue\Events\JobProcessed;
@@ -42,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
         Warehouse::observe(WarehouseObserver::class);
         Branch::observe(BranchObserver::class);
         Item::observe(ItemObserver::class);
+        Transaction::observe(TransactionObserver::class);
         Event::listen(JobProcessed::class, function (JobProcessed $event) {
             $admin = User::where('type', userType::admin->value)->first();
             if ($admin) {

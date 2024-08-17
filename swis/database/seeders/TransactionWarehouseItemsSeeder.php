@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\TransactionWarehouseItem;
+use App\Models\transactionWarehouseItem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class TransactionWarehouseItemsSeeder extends Seeder
      */
     public function run(): void
     {
-        TransactionWarehouseItem::factory()->count(15)->create();
+        transactionWarehouseItem::factory()->count(15)->create();
 
     }
 }

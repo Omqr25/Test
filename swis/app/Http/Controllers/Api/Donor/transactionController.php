@@ -8,12 +8,13 @@ use App\Http\Resources\DonorTransactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class transactionController extends Controller
+class TransactionController extends Controller
 {
     private transactionRepository $transactionRepository;
     public function __construct(transactionRepository $transactionRepository){
         $this->transactionRepository=$transactionRepository;
-        $this->middleware(['auth:sanctum']);
+        $this->middleware(['auth:sanctum', 'Localization']);
+//        $this->middleware(['permission:Donor']);
     }
     public function index()
     {
@@ -23,7 +24,7 @@ class transactionController extends Controller
     public function show($transaction_id)
     {
         $data = $this->transactionRepository->showTransactionForDonor(Auth::user()->id,$transaction_id);
-        return $this->showAll($data['Transaction'],DonorTransactionResource::class,$data['message']);
+        return $this->showOne($data['Transaction'],DonorTransactionResource::class,$data['message']);
     }
 
 }

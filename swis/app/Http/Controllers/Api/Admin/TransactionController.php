@@ -43,7 +43,11 @@ class TransactionController extends Controller
     {
         $this->transactionRepository = $transactionRepository;
         $this->qrCodeService = $qrCodeService;
-        $this->middleware(['auth:sanctum']);
+        $this->middleware(['auth:sanctum', 'Localization']);
+//        $this->middleware(['permission:Admin']);
+//        $this->middleware(['permission:Keeper'])->only(['store']);
+//        $this->middleware(['permission:Donor'])->only(['store']);
+
     }
     public function index(Request $request): JsonResponse
     {
@@ -53,10 +57,11 @@ class TransactionController extends Controller
             } catch (Throwable $th) {
                 return Response::Error(null, $th->getMessage());
             }
-            if ($data->isEmpty()) return Response::Error(null, 'There is no such transactions');
-            return Response::Success($data, 'Transactions filtered successfully');
+            if ($data['Transaction']->isEmpty()) return Response::Error(null, 'There is no such transactions');
+            // return Response::Success($data, 'Transactions filtered successfully');
         }
-        $data=$this->transactionRepository->index();
+        else $data=$this->transactionRepository->index();
+        
         return $this->showAll($data['Transaction'],TransactionResource::class,$data['message']);
 
     }
@@ -82,6 +87,7 @@ class TransactionController extends Controller
         $this->transactionRepository->UpdateSystemItemsQuantity($dataItem);
         $this->transactionRepository->UpdateDonorItemsQuantity($dataItem);
 
+        $dataItem = $this->transactionRepository->fillModeType($dataItem);
         // Handle waybill image upload
         // if ($request->hasFile('waybill_img')) {
         //     $file = $request->file('waybill_img');
@@ -98,9 +104,9 @@ class TransactionController extends Controller
         $transaction = $this->transactionRepository->update($dataItem, $transaction['Transaction']);
 
         // Send notification to admins
-        $admin = User::where('type', userType::admin->value)->first();
-        if (!$admin) {
-            $admin->notify(new TransactionCreated($transaction['Transaction'], Auth::user()));
+        $admin = User::role('admin')->first();
+        if (!Auth::user()->hasRole('admin')) {
+            $admin->notify(new TransactionCreated($transaction['Transaction'], $admin));
         }
 
         return $this->showOne($transaction['Transaction'], TransactionResource::class, $transaction['message']);
